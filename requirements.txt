@@ -1,0 +1,13 @@
+scikit-learn
+pandas
+numpy
+pymongo
+python-dotenv
+fastapi
+uvicorn[standard]
+jinja2
+python-multipart
+pyyaml
+mlflow
+boto3
+scipy

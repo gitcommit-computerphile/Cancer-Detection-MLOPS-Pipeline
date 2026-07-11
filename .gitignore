@@ -1,0 +1,15 @@
+.env
+Artifacts/
+final_model/
+logs/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.eggs/
+tmp_upload.csv
+*.log
+venv/

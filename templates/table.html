@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breast Cancer Detection</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; padding: 40px; background: #f5f7fa; color: #333; }
+        h1 { font-size: 1.6rem; margin-bottom: 8px; }
+        .subtitle { color: #666; margin-bottom: 24px; font-size: 0.9rem; }
+        nav { margin-bottom: 24px; }
+        nav a { color: #3498db; text-decoration: none; margin-right: 16px; font-size: 0.9rem; }
+        nav a:hover { text-decoration: underline; }
+        .card { background: #fff; border-radius: 8px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); margin-bottom: 24px; }
+        h2 { font-size: 1.1rem; margin-bottom: 16px; }
+        form { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        input[type="file"] { border: 1px solid #ddd; padding: 6px 10px; border-radius: 4px; font-size: 0.9rem; }
+        button { background: #3498db; color: #fff; border: none; padding: 8px 18px; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
+        button:hover { background: #2980b9; }
+        .hint { font-size: 0.8rem; color: #888; margin-top: 8px; }
+        .result-count { font-size: 0.9rem; color: #555; margin-bottom: 12px; }
+        .table-wrap { overflow-x: auto; }
+        table { border-collapse: collapse; width: 100%; font-size: 0.8rem; }
+        th { background: #3498db; color: #fff; padding: 8px 10px; text-align: left; white-space: nowrap; }
+        td { border-bottom: 1px solid #eee; padding: 6px 10px; white-space: nowrap; }
+        tr:hover td { background: #f0f7ff; }
+        td:last-child, th:last-child { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Breast Cancer Detection</h1>
+    <p class="subtitle">MLOps mini pipeline — RandomForest / LogisticRegression / DecisionTree</p>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/train">GET /train — retrain model</a>
+        <a href="/docs">API docs</a>
+    </nav>
+
+    <div class="card">
+        <h2>Predict from CSV</h2>
+        <form action="/predict" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".csv" required>
+            <button type="submit">Run Prediction</button>
+        </form>
+        <p class="hint">Upload a CSV with the 30 breast cancer feature columns (no target column needed).</p>
+    </div>
+
+    {% if results %}
+    <div class="card">
+        <h2>Results</h2>
+        <p class="result-count">{{ results|length }} record(s) scored</p>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        {% for key in results[0].keys() %}
+                        <th>{{ key }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in results %}
+                    <tr>
+                        {% for val in row.values() %}
+                        <td>{{ val if val is not none else "" }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+</body>
+</html>
